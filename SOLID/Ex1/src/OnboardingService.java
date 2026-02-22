@@ -3,10 +3,12 @@ import java.util.*;
 public class OnboardingService {
     private final StudentRepo db;
     private final StudentMapper mapper;
+    private final Printer printer;
 
-    public OnboardingService(StudentRepo db ,StudentMapper mapper  ) { 
+    public OnboardingService(StudentRepo db ,StudentMapper mapper , Printer printer ) { 
         this.db = db; 
         this.mapper = mapper;
+        this.printer = printer;
     }
 
     // Intentionally violates SRP: parses + validates + creates ID + saves + prints.
@@ -24,10 +26,7 @@ public class OnboardingService {
 
         StudentRecord rec = mapper.record(kv);
         db.save(rec);
+        printer.print(rec);
 
-        System.out.println("OK: created student " + rec.id);
-        System.out.println("Saved. Total students: " + db.count());
-        System.out.println("CONFIRMATION:");
-        System.out.println(rec);
     }
 }
