@@ -14,6 +14,8 @@ public class Main {
                 new OrderLine("C1", 1)
         );
 
-        sys.checkout("student", order);
+        Customer customer = new Student();
+
+        sys.checkout(customer, order);
     }
 }

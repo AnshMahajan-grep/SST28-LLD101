@@ -8,7 +8,7 @@ public class CafeteriaSystem {
     public void addToMenu(MenuItem i) { menu.put(i.id, i); }
 
     // Intentionally SRP-violating: menu mgmt + tax + discount + format + persistence.
-    public void checkout(String customerType, List<OrderLine> lines) {
+    public void checkout(Customer customerType, List<OrderLine> lines) {
         String invId = "INV-" + (++invoiceSeq);
         StringBuilder out = new StringBuilder();
         out.append("Invoice# ").append(invId).append("\n");
@@ -21,10 +21,10 @@ public class CafeteriaSystem {
             out.append(String.format("- %s x%d = %.2f\n", item.name, l.qty, lineTotal));
         }
 
-        double taxPct = TaxRules.taxPercent(customerType);
+        double taxPct = customerType.taxPercent();
         double tax = subtotal * (taxPct / 100.0);
 
-        double discount = DiscountRules.discountAmount(customerType, subtotal, lines.size());
+        double discount = customerType.discountAmount(subtotal, lines.size());
 
         double total = subtotal + tax - discount;
 
