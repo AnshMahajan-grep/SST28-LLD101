@@ -11,4 +11,17 @@ public class StudentProfile {
         this.attendancePct = attendancePct; this.earnedCredits = earnedCredits;
         this.disciplinaryFlag = disciplinaryFlag;
     }
+
+    public double getCgr() { 
+        return cgr; 
+    }
+    public int getAttendancePct() { 
+        return attendancePct;
+    }
+    public int getEarnedCredits() { 
+        return earnedCredits; 
+    }
+    public int getDisciplinaryFlag() { 
+        return disciplinaryFlag; 
+    }
 }
