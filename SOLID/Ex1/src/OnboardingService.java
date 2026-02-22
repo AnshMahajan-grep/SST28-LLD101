@@ -2,9 +2,11 @@ import java.util.*;
 
 public class OnboardingService {
     private final FakeDb db;
+    private final StudentMapper mapper;
 
-    public OnboardingService(FakeDb db ) { 
+    public OnboardingService(FakeDb db ,StudentMapper mapper  ) { 
         this.db = db; 
+        this.mapper = mapper;
     }
 
     // Intentionally violates SRP: parses + validates + creates ID + saves + prints.
@@ -12,31 +14,18 @@ public class OnboardingService {
         System.out.println("INPUT: " + raw);
 
         Map<String, String> kv = Parser.parse(raw);
+        List<String> errors = Validater.validate(kv);
         
-        String name = kv.getOrDefault("name", "");
-        String email = kv.getOrDefault("email", "");
-        String phone = kv.getOrDefault("phone", "");
-        String program = kv.getOrDefault("program", "");
-
-        // validation inline, printing inline
-        List<String> errors = new ArrayList<>();
-        if (name.isBlank()) errors.add("name is required");
-        if (email.isBlank() || !email.contains("@")) errors.add("email is invalid");
-        if (phone.isBlank() || !phone.chars().allMatch(Character::isDigit)) errors.add("phone is invalid");
-        if (!(program.equals("CSE") || program.equals("AI") || program.equals("SWE"))) errors.add("program is invalid");
-
         if (!errors.isEmpty()) {
             System.out.println("ERROR: cannot register");
             for (String e : errors) System.out.println("- " + e);
             return;
         }
 
-        String id = IdUtil.nextStudentId(db.count());
-        StudentRecord rec = new StudentRecord(id, name, email, phone, program);
-
+        StudentRecord rec = mapper.record(kv);
         db.save(rec);
 
-        System.out.println("OK: created student " + id);
+        System.out.println("OK: created student " + rec.id);
         System.out.println("Saved. Total students: " + db.count());
         System.out.println("CONFIRMATION:");
         System.out.println(rec);
