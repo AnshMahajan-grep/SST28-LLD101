@@ -1,7 +1,7 @@
 public class Main {
     public static void main(String[] args) {
         System.out.println("=== Student Onboarding ===");
-        FakeDb db = new FakeDb();
+        StudentRepo db = new FakeDb();
         StudentMapper mapper = new StudentMapper(db);
         OnboardingService svc = new OnboardingService(db, mapper);
 

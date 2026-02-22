@@ -1,9 +1,9 @@
 import java.util.Map;
 public class StudentMapper {
     
-    private final FakeDb db;
+    private final StudentRepo db;
 
-    StudentMapper(FakeDb db) {
+    StudentMapper(StudentRepo db) {
         this.db =db;
     }
     public StudentRecord record(Map<String, String> kv) {

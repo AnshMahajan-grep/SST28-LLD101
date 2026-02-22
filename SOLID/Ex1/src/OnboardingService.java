@@ -1,10 +1,10 @@
 import java.util.*;
 
 public class OnboardingService {
-    private final FakeDb db;
+    private final StudentRepo db;
     private final StudentMapper mapper;
 
-    public OnboardingService(FakeDb db ,StudentMapper mapper  ) { 
+    public OnboardingService(StudentRepo db ,StudentMapper mapper  ) { 
         this.db = db; 
         this.mapper = mapper;
     }
