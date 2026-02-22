@@ -1,3 +1,4 @@
-public enum AddOn {
-    MESS, LAUNDRY, GYM
+public interface AddOn {
+    public double price();
+    public String name();
 }
