@@ -2,9 +2,13 @@ import java.util.*;
 
 public class CafeteriaSystem {
     private final Map<String, MenuItem> menu = new LinkedHashMap<>();
-    private final FileStore store = new FileStore();
+    private final InvoiceRepo store;
     private int invoiceSeq = 1000;
 
+    CafeteriaSystem(InvoiceRepo store) {
+        this.store = store;
+    }
+    
     public void addToMenu(MenuItem i) { menu.put(i.id, i); }
 
     // Intentionally SRP-violating: menu mgmt + tax + discount + format + persistence.
@@ -13,7 +17,7 @@ public class CafeteriaSystem {
         String invId = "INV-" + (++invoiceSeq);
         
         Invoice invoice = InvoiceCalculator.calculate(invId, customerType, lines, menu);
-        String printable = invoice.format();
+        String printable = InvoiceFormatter.identityFormat(invoice);
         System.out.print(printable);
 
         store.save(invId, printable);

@@ -18,18 +18,25 @@ public class Invoice {
         this.items = items;
     }
 
-    public String format() {
-
-        StringBuilder out = new StringBuilder();
-        out.append("Invoice# ").append(invId).append("\n");
-
-        for (InvoiceItem item : items) {
-            out.append(String.format("- %s x%d = %.2f\n", item.name, item.qty, item.lineTotal));
-        }
-        out.append(String.format("Subtotal: %.2f\n", subtotal));
-        out.append(String.format("Tax(%.0f%%): %.2f\n", taxPct, tax));
-        out.append(String.format("Discount: -%.2f\n", discount));
-        out.append(String.format("TOTAL: %.2f\n", total));
-        return out.toString();
+    public String getId() {
+        return invId;
+    }
+    public List<InvoiceItem> getItems() {
+        return items;
+    }
+    public double getSubtotal() {
+        return subtotal;
+    }
+    public double getTaxAmount() {
+        return tax;
+    }
+    public double getTaxPercent() {
+        return taxPct;
+    }
+    public double getDiscount() {
+        return discount;
+    }
+    public double getTotal() {
+        return total;
     }
 }
