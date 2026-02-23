@@ -15,7 +15,10 @@ public class Main {
     private static String safe(Exporter e, ExportRequest r) {
         try {
             ExportResult out = e.export(r);
-            return "OK bytes=" + out.bytes.length;
+            if (out.success) {
+                return "OK bytes=" + out.bytes.length;
+            }
+            return "ERROR: " + out.message;
         } catch (RuntimeException ex) {
             return "ERROR: " + ex.getMessage();
         }

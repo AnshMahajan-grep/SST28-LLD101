@@ -3,9 +3,19 @@ import java.nio.charset.StandardCharsets;
 public class CsvExporter extends Exporter {
     @Override
     public ExportResult export(ExportRequest req) {
-        // LSP issue: changes meaning by lossy conversion
-        String body = req.body == null ? "" : req.body.replace("\n", " ").replace(",", " ");
-        String csv = "title,body\n" + req.title + "," + body + "\n";
-        return new ExportResult("text/csv", csv.getBytes(StandardCharsets.UTF_8));
+        requireRequest(req);
+        String csv = escape(req.title) + "," +
+                     escape(req.body) + "\n";
+
+        return ExportResult.ok("text/csv",csv.getBytes(StandardCharsets.UTF_8)
+        );
+    }
+
+    private String escape(String s) {
+        if (s.contains(",") || s.contains("\n") || s.contains("\"")) {
+            s = s.replace("\"", "\"\"");
+            return "\"" + s + "\"";
+        }
+        return s;
     }
 }
