@@ -18,6 +18,11 @@ import java.util.Random;
  */
 public class MapDataSource {
 
+    MarkerStyleFactory factory ;
+    public MapDataSource(MarkerStyleFactory factory) {
+        this.factory = factory;
+    }
+
     private static final String[] SHAPES = {"PIN", "CIRCLE", "SQUARE"};
     private static final String[] COLORS = {"RED", "BLUE", "GREEN", "ORANGE"};
     private static final int[] SIZES = {10, 12, 14, 16};
@@ -37,7 +42,9 @@ public class MapDataSource {
             int size = SIZES[rnd.nextInt(SIZES.length)];
             boolean filled = rnd.nextBoolean();
 
-            out.add(new MapMarker(lat, lng, label, shape, color, size, filled));
+            MarkerStyle style = factory.get(shape, color, size, filled);
+
+            out.add(new MapMarker(lat, lng, label, style));
         }
         return out;
     }
